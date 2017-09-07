@@ -7,10 +7,17 @@ PEB-DNS 管理平台
 ### 有任何问题，可以通过邮件形式交流。
 
 ****
+# 平台截图
+
+![dns](/images/peb-dashbard.png "DNS 平台 Dashboard")
+
+![dns](/images/manage_view.png "DNS 平台 View 管理界面")
+
+![dns](/images/manage_zone.png "DNS 平台 Zone 管理界面")
 
 # 平台架构图如下：
 
-![dns](/dns.jpg "DNS 平台架构图")
+![dns](/images/dns.jpg "DNS 平台架构图")
 
 功能介绍
 ------
@@ -234,4 +241,4 @@ sudo service nginx restart
 
 ### 免责申明
 PEB-DNS 是一个自测的内部管理系统，为了避免大家重复造轮子，所以对外开源，希望大家在使用的时候多进行测试，验证后再进行使用。
-若在使用中导致故障或损失，一切和和本团队无关。
+若在使用中导致故障或损失，一切和本团队无关。
