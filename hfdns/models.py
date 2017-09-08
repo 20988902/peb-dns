@@ -77,10 +77,21 @@ class Server(db.Model):
     ip = db.Column(db.String(64))
     env = db.Column(db.String(64))
     dns_type = db.Column(db.String(64))
+    zabbix_itemid = db.Column(db.String(64))
     status = db.Column(db.String(64), default='初始化中')
     logs = db.Column(db.Text())
 
-
+    def to_json(self):
+        json_server = {
+            'id': self.id,
+            'host': self.host,
+            'ip': self.ip,
+            'env': self.env,
+            'dns_type': self.dns_type,
+            'status': self.status,
+            'logs': self.logs
+        }
+        return json_server
 
 class Logs(db.Model):
     __tablename__ = 'logs'

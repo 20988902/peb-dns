@@ -69,7 +69,7 @@ PEB-DNS 管理平台
 * 克隆项目代码到本地
 ```bash
 # 将代码仓库 clone 到本地
-git clone xxx@xxx:haofang/hfdns.git
+git clone xxx@xxx:pahf-ops/peb-dns.git
 ```
 
 * 工具安装
@@ -88,8 +88,8 @@ source ~/.bashrc
 
 # 现在你的 home 目录下有 Env 的文件夹，你的 python 虚拟环境都会创建在这里
 
-mkvirtualenv hfdns_env # hfdns 可随便改成你的项目名
-workon hfdns_env # 现在已进入项目的独立环境
+mkvirtualenv pebdns_env # peb-dns 可随便改成你的项目名
+workon pebdns_env # 现在已进入项目的独立环境
 
 
 # 安装 mysql 略  （请安装 mysql5.7 版本）
@@ -103,7 +103,7 @@ sudo apt-get install etcd
 
 首先进入当前目录下
 ```bash
-workon hfdns_env # 现在已进入项目的独立环境
+workon pebdns_env # 现在已进入项目的独立环境
 pip install -r requirements.txt
 
 # 下载页面 https://dev.mysql.com/downloads/connector/python/
@@ -160,12 +160,12 @@ flask db upgrade
 
 创建 nginx 配置
 
-`sudo vim /etc/nginx/sites-enabled/hfdns.conf`
+`sudo vim /etc/nginx/sites-enabled/peb-dns.conf`
 
 ```nginx
 server {
     listen 80;
-    server_name hfdns.xxx.com; # 这是 HOST 机器的外部域名，用地址也行
+    server_name peb-dns.xxx.com; # 这是 HOST 机器的外部域名，用地址也行
 
     location / {
         proxy_pass http://127.0.0.1:8080; # 这里是指向 gunicorn host 的服务地址
@@ -181,7 +181,7 @@ sudo service nginx restart
 
 进入当前项目根目录下，运行以下命令部署
 ```bash
-workon hfdns_env
+workon pebdns_env
 nohup gunicorn -w 4 hf_dns:app -b 0.0.0.0:8080 --log-level=debug &
 ```
 PS: 上面 -w 为 开启 workers 数，公式：（系统内核数*2 + 1)
@@ -196,10 +196,10 @@ sudo apt-get install supervisor
 ```
 创建 supervisor 配置
 
-`sudo vim /etc/supervisor/conf.d/hfdns.conf`
+`sudo vim /etc/supervisor/conf.d/pebdns.conf`
 ```
-[program:hfdns_env]
-command=/root/Env/hfdns_env/bin/gunicorn
+[program:pebdns_env]
+command=/root/Env/pebdns_env/bin/gunicorn
     -w 3
     -b 0.0.0.0:8080
     --log-level debug
@@ -215,12 +215,12 @@ PS: 上面 -w 为 开启 workers 数，公式：（系统内核数*2 + 1)
 
 创建 nginx 配置
 
-`sudo vim /etc/nginx/sites-enabled/hfdns.conf`
+`sudo vim /etc/nginx/sites-enabled/peb-dns.conf`
 
 ```nginx
 server {
     listen 80;
-    server_name hfdns.xxx.com; # 这是 HOST 机器的外部域名，用地址也行
+    server_name peb-dns.xxx.com; # 这是 HOST 机器的外部域名，用地址也行
 
     location / {
         proxy_pass http://127.0.0.1:8080; # 这里是指向 gunicorn host 的服务地址

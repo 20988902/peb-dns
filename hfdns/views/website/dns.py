@@ -860,42 +860,9 @@ def server_resolutions():
         return jsonify(message='OK')
 
 
-# @dns.route('/api/inner_selections', methods=['POST'])
-# @login_required
-# def inner_selections():
-#     print(request.form)
-#     print(request.get_json())
-#     req = request.form
-#     if req.get('info_type') == 'r_type':
-#         inner_record_types = current_app.config['INNER_TYPES']
-#         record_types = [{'id': record_type, 'text': record_type} for record_type in inner_record_types]
-#         return jsonify(record_types)
-#     elif req.get('info_type') == 'r_ttl':
-#         ttl_list = current_app.config['TTL_LIST']
-#         ttls = [{'id': ttl, 'text': ttl} for ttl in ttl_list]
-#         return jsonify(ttls)
-#     elif req.get('info_type') == 'r_line':
-#         bx_lines = current_app.config['BX_LINES']
-#         office_lines = current_app.config['OFFICE_LINES']
-#         lines = [{'id': line, 'text': line} for line in office_lines]
-#         return jsonify(lines)
+@dns.route('/api/get_dns_servers')
+@login_required
+def get_dns_servers():
+    all_servers = Server.query.all()
 
 
-# @dns.route('/api/outter_selections', methods=['POST'])
-# @login_required
-# def outter_selections():
-#     print(request.form)
-#     print(request.get_json())
-#     req = request.form
-#     if req.get('info_type') == 'r_type':
-#         outter_record_types = current_app.config['INNER_TYPES']
-#         record_types = [{'id': record_type, 'text': record_type} for record_type in outter_record_types]
-#         return jsonify(record_types)
-#     elif req.get('info_type') == 'r_ttl':
-#         ttl_list = current_app.config['TTL_LIST']
-#         ttls = [{'id': ttl, 'text': ttl} for ttl in ttl_list]
-#         return jsonify(ttls)
-#     elif req.get('info_type') == 'r_line':
-#         inner_lines = current_app.config['OFFICE_LINES']
-#         lines = [{'id': line, 'text': line} for line in inner_lines]
-#         return jsonify(lines)

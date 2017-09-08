@@ -9,15 +9,11 @@ from ldap3 import Server, Connection, ALL
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
 
-_server_ip= 'ldaps://10.59.72.6'
-_port = '636'
-_baseDN = ',ou=users,dc=ipo,dc=com'
-
 
 def check_auth(username, passwd):
     try:
-        server = Server(_server_ip, port=int(_port), use_ssl=True, get_info=ALL)
-        _connection = Connection(server, 'cn=' + username + _baseDN, passwd, auto_bind=True)
+        server = Server(current_app.config.get('LDAP_SERVER'), port=int(current_app.config.get('LDAP_SERVER_PORT')), use_ssl=True, get_info=ALL)
+        _connection = Connection(server, 'cn=' + username + current_app.config.get('LDAP_CONFIG'), passwd, auto_bind=True)
     except Exception as e:
         return False
     return True

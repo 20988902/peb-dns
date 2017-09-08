@@ -1,3 +1,10 @@
+
+# 认证， 通过LDAP进行认证登陆
+LDAP_SERVER = 'ldaps://0.0.0.0'   # LDAP服务器地址
+LDAP_SERVER_PORT = '636'     # LDAP服务器端口
+LDAP_CONFIG = ',ou=users,dc=xxx,dc=com'  #LDAP 认证配置
+
+
 # 数据库配置
 
 # 这里配置你自己的 生产环境 mysql 地址， 格式如下
@@ -41,5 +48,24 @@ DNSPOD_LINE_URL = "https://dnsapi.cn/Record.Line"
 DNSPOD_TYPE_URL = "https://dnsapi.cn/Record.Type"
 
 
+# 使用 Zabbix 监控DNS服务器，主要获取DNS服务器状态，获取解析量等
 
+ZABBIX_URL = "http://zabbix.ops.com/api_jsonrpc.php"
+ZABBIX_USERNAME = "ops123"   #ZABBIX 用户名
+ZABBIX_PASSWORD = "ops123"   # 用户密码
+
+ZABBIX_POST_DATA = {
+    "jsonrpc": "2.0",
+    "method": "history.get",
+    "params": {
+        "output": "extend",
+        "history": 0,
+        "itemids": "",
+        "sortfield": "clock",
+        "sortorder": "DESC",
+        "limit": 1
+    },
+    "auth": "",
+    "id": 1
+}
 

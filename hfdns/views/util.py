@@ -198,3 +198,43 @@ def getDNSPodTypes(domain):
 
 
 
+class ZBapi(object):
+    def __init__(self, itemid):
+        self._url = current_app.config.get('ZABBIX_URL')
+        self._header = {"Content-Type":"application/json"}
+        self._itemid = itemid
+
+    def _get_authid(self):
+        data = {
+            "jsonrpc": "2.0",
+            "method": "user.login",
+            "params": {
+                "user": current_app.config.get('ZABBIX_USERNAME'),
+                "password": current_app.config.get('ZABBIX_PASSWORD')
+            },
+            "id": 1,
+            "auth":None
+        }
+
+        try:
+            r = requests.post(self._url, data=json.dumps(data), headers=self._header, timeout=10)
+        except Exception as e:
+            raise e
+        authid = json.loads(r.text).get("result")
+        return authid
+
+
+    def _configure_post_data(self, zb_post_data):
+        zb_post_data['auth'] = self._get_authid()
+        zb_post_data['params']['itemids'] = self._itemid
+        return zb_post_data
+
+    def get_dns_server_status(self):
+        
+        zb_post_data = self._configure_post_data(current_app.config.get('ZABBIX_POST_DATA'))
+        try:
+            r = requests.post(self._url, data=json.dumps(zb_post_data), headers=self._header, timeout=10)
+        except Exception as e:
+            raise e
+        return json.loads(r.text).get("result")[0].get('value')
+        
