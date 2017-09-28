@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title>AdminLTE 2 | Registration Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -24,69 +24,68 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
     <b>DNS</b>管理平台
   </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
+
+  <div class="register-box-body">
+
     {% for msg in get_flashed_messages() %}
     <div class="alert alert-danger alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       {{ msg }}
     </div>
     {% endfor %}
-    <p class="login-box-msg">请输入账号密码登录</p>
 
-    <form id="loginform" role="form" method="POST">
+    <p class="login-box-msg">新用户注册</p>
+
+    <form id="registerform" role="form"  method="post">
       {{form.hidden_tag()}}
       <div class="form-group has-feedback">
-        <!--<input class="form-control" placeholder="同JIRA账号" required>-->
-        {{ form.username(id="username", class="form-control", placeholder="同JIRA账号", autofocus=True, required=True, autocomplete="off") }}
-        <span class="glyphicon glyphicon glyphicon-user form-control-feedback"></span>
+        <!-- <input type="text" class="form-control" placeholder="请输入用户名"> -->
+        {{ form.username(id="username", class="form-control", placeholder="请输入用户名", autofocus=True, autocomplete="off") }}
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <!--<input type="password" class="form-control" placeholder="同JIRA密码" required>-->
-        {{ form.password(id="password", class="form-control",placeholder="同JIRA密码", value="", required=True, autocomplete="off") }}
+        {{ form.email(id="email", class="form-control", placeholder="请输入邮箱", autocomplete="off") }}
+        <!-- <input type="email" class="form-control" placeholder="请输入邮箱"> -->
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <!-- <input type="password" class="form-control" placeholder="请输入密码"> -->
+        {{ form.password(id="password", class="form-control", placeholder="请输入密码", autocomplete="off") }}
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        {{ form.password2(id="password2", class="form-control", placeholder="请重复密码", autocomplete="off") }}
+        <!-- <input type="password" class="form-control" placeholder="请重复密码"> -->
+        <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <!--<input type="checkbox"> 记住我-->
-              {{ form.remember_me(id="remember", type="checkbox") }}
-              记住我
+              <!-- <input type="checkbox"> I agree to the <a href="#">terms</a> -->
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          {{ form.submit(class="btn btn-primary btn-block btn-flat") }}
-          <!--<button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>-->
+            {{ form.submit(class="btn btn-primary btn-block btn-flat") }}
+          <!-- <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button> -->
         </div>
         <!-- /.col -->
       </div>
     </form>
 
-    <!--<div class="social-auth-links text-center">
-      <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
-    </div>-->
-    <!-- /.social-auth-links -->
-
-    <!--<a href="#">I forgot my password</a><br>-->
-    <!--<a href="register.html" class="text-center">Register a new membership</a>-->
-    <a href="/auth/register" class="text-center">新用户注册</a>
+    <a href="/auth/login" class="text-center">已有账号登录</a>
 
   </div>
-  <!-- /.login-box-body -->
+  <!-- /.form-box -->
 </div>
-<!-- /.login-box -->
+<!-- /.register-box -->
 
 <!-- jQuery 2.2.3 -->
 <script src="/static/plugins/jQuery/jquery-2.2.3.min.js"></script>

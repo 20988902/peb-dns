@@ -1,6 +1,7 @@
 from datetime import datetime
 import hashlib
 from flask import current_app, request, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from hfdns.extensions import db, login_manager 
 import copy
@@ -11,6 +12,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(64), unique=True, index=True)
+    password_hash = db.Column(db.String(128))
     chinese_name = db.Column(db.String(64))
     cellphone = db.Column(db.String(64))
     actived = db.Column(db.Boolean, default=False)
@@ -20,6 +22,20 @@ class User(UserMixin, db.Model):
     admin = db.Column(db.Integer, index=True, default=0)
     member_since = db.Column(db.DateTime(), default=datetime.now)
     last_seen = db.Column(db.DateTime(), default=datetime.now)
+
+    @property
+    def password(self):
+        raise AttributeError('密码禁止读取！')
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        if self.password_hash is None:
+            return False
+        return check_password_hash(self.password_hash, password)
+
 
 
 class AnonymousUser(AnonymousUserMixin):
@@ -79,6 +95,8 @@ class Server(db.Model):
     dns_type = db.Column(db.String(64))
     zabbix_itemid = db.Column(db.String(64))
     status = db.Column(db.String(64), default='初始化中')
+    zb_status_itemid = db.Column(db.String(64))
+    zb_dns_parsing_itemid = db.Column(db.String(64))
     logs = db.Column(db.Text())
 
     def to_json(self):

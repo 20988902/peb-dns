@@ -6,7 +6,7 @@ from hfdns.decorators import permission_required
 from collections import OrderedDict
 from datatables import ColumnDT, DataTables
 from datetime import datetime, timedelta
-from ..util import getDNSPodLines, DNSRecord, doCMDWithOutput, getRecordContent, initServer
+from ..util import getDNSPodLines, DNSRecord, doCMDWithOutput, getRecordContent, initServer, ZBapi
 from ..dns_temp import make_record, DNSZone, DNSView, getETCDclient
 import etcd
 from jinja2 import Template
@@ -860,9 +860,16 @@ def server_resolutions():
         return jsonify(message='OK')
 
 
-@dns.route('/api/get_dns_servers')
+@dns.route('/api/get_dns_server_info', methods=['POST'])
 @login_required
-def get_dns_servers():
-    all_servers = Server.query.all()
-
-
+def get_dns_server_info():
+    req = request.json
+    dns_server_host = req.get('host')
+    dns_server_info = req.get('server_info')
+    dns_server = Server.query.filter_by(host=dns_server_host)
+    
+    zb_status_itemid = dns_server.zb_status_itemid
+    dns_status = ZBapi().get_dns_server_status(zb_status_itemid)
+    if dns_status == "1":
+        return jsonify(message='OK')
+    return jsonify(message='Failed')

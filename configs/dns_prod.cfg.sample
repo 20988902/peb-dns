@@ -4,6 +4,10 @@ LDAP_SERVER = 'ldaps://0.0.0.0'   # LDAP服务器地址
 LDAP_SERVER_PORT = '636'     # LDAP服务器端口
 LDAP_CONFIG = ',ou=users,dc=xxx,dc=com'  #LDAP 认证配置
 
+# 默认admin用户可以登录
+DEFAULT_ADMIN_USERNAME = 'admin'   
+DEFAULT_ADMIN_PASSWD = 'admin123'
+
 
 # 数据库配置
 

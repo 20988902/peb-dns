@@ -34,6 +34,17 @@ def configure_blueprints(app, blueprints):
         app.register_blueprint(blueprint)
 
 
+def configure_db(app):
+    with app.app_context(): 
+        user_count = db.session.query(User).count()
+        if user_count < 1:
+            user = User(username=app.config.get("DEFAULT_ADMIN_USERNAME"),
+                        password=app.config.get("DEFAULT_ADMIN_PASSWD"),
+                        admin=2)
+            db.session.add(user)
+            db.session.commit()
+
+
 def configure_error_handlers(app):
     
     @app.errorhandler(403)
@@ -78,5 +89,6 @@ def create_app(config_name='default'):
     configure_extensions(app)
     configure_blueprints(app, [auth, dns, main, api])
     configure_error_handlers(app)
+    configure_db(app)
 
     return app
